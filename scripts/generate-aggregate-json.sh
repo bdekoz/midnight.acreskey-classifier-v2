@@ -56,19 +56,28 @@ generate_platform_by_sitelist() {
    done
 }
 
-#generate_platform_by_sitelist "android" "../sitelist.txt" "2024-11-10"
+generate_platform_by_sitelist "android" "../sitelist.txt" "2024-11-10"
 
 # 3
 generate_data_json() {
 
     OFILE=data.json
+    TOTALFILES=`ls *-aggregate.json | wc -l`
+
     echo "[" >> $OFILE
+
+    FILEN=0
     for i in `ls *-aggregate.json`
     do
 	cat $i >> $OFILE
-	echo "," >> $OFILE
+	((FILEN+=1))
+	if [ "$FILEN" -ne "$TOTALFILES" ]; then
+	    echo "," >> $OFILE
+	fi
     done
+
+    echo "" >> $OFILE
     echo "]" >> $OFILE
 }
 
-generate_data_json
+#generate_data_json
