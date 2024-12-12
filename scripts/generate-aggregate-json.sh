@@ -4,7 +4,12 @@ XURLMIN=$MOZPERFAX/bin/moz-perf-x-transform-url.exe
 XAGGREGATE=../../scripts/generate_aggregate_json_by_date.py
 CHROMEDIR=chrome_release
 FIREFOXDIR=fenix_nightly
+
 ODIR=tmp
+if [ ! -d tmp ]; then
+    mkdir $ODIR
+fi
+
 
 get_aggregate() {
     TESTN="$1"
@@ -42,10 +47,10 @@ generate_platform_by_sitelist() {
        echo "$URLM"
 
        FFMJ="${FIREFOXDIR}/${URLM}-metrics.json"
-       FFFJ="${ARTIFACT_BASE}-firefox-filmstrip.json"
+       FFFJ="${ODIR}/${ARTIFACT_BASE}-firefox-filmstrip.json"
 
        CMJ="${CHROMEDIR}/${URLM}-metrics.json"
-       CFJ="${ARTIFACT_BASE}-chrome-filmstrip.json"
+       CFJ="${ODIR}/${ARTIFACT_BASE}-chrome-filmstrip.json"
 
        $XAGGREGATE "$URLM" "$PLATFORM" "$ISODATE" "${ARTIFACT_BASE}-side-by-side.mp4" "$FFFJ" "$FFMJ" "$CFJ" "$CMJ"
    done
